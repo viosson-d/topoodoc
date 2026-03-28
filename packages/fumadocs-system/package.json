@@ -1,0 +1,29 @@
+{
+  "name": "@topoo/fumadocs-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.2.8",
+    "fumadocs-ui": "16.7.7",
+    "tailwindcss": "^4.2.2"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "peerDependencies": {
+    "fumadocs-core": "16.7.7",
+    "fumadocs-mdx": "14.2.11",
+    "fumadocs-ui": "16.7.7",
+    "next": "16.2.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/mdx": "^2.0.13",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "typescript": "^5.9.3"
+  }
+}

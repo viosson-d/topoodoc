@@ -1,0 +1,10 @@
+{
+  "name": "topoodoc",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.4.0",
+  "type": "module",
+  "scripts": {
+    "docs:create": "node scripts/create-fumadocs-system.mjs"
+  }
+}
