@@ -3,7 +3,6 @@ export { DocsCopyPage } from "./components/docs-copy-page";
 export { Callout, LinkedCard, Steps, Step, Accordion, AccordionItem, AccordionTrigger, AccordionContent, CodeCollapsibleWrapper, PackageTabs, CopyButton } from "./components/docs-mdx";
 export { DocsRootLayout } from "./components/docs-root-layout";
 export { DocsShell, type DocsShellNavItem, type DocsShellProps } from "./components/docs-shell";
-export { BoardLandingTemplate, DocsSystemIndexTemplate, LinkIndexTemplate, type BoardLandingCard, type LinkIndexItem } from "./components/system-page-templates";
 export { DocsTableOfContents } from "./components/docs-table-of-contents";
 export { CodeTabs, Tabs, TabsContent, TabsList, TabsTrigger } from "./components/docs-tabs";
 export { DocsToolbarSearch } from "./components/docs-toolbar-search";

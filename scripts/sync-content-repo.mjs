@@ -107,14 +107,6 @@ async function pathExists(targetPath) {
   }
 }
 
-async function readJsonIfExists(filePath) {
-  try {
-    return JSON.parse(await readFile(filePath, "utf8"));
-  } catch {
-    return null;
-  }
-}
-
 function renderDocsConfig(contentConfig, navLabelByUrl) {
   const metadataTitle = JSON.stringify(contentConfig.site?.title ?? "Docs");
   const metadataDescription = JSON.stringify(contentConfig.site?.description ?? "Documentation.");
@@ -180,19 +172,6 @@ for (const systemOwnedDir of systemOwnedDirs) {
 
   await rm(targetPath, { recursive: true, force: true });
   await cp(sourcePath, targetPath, { recursive: true });
-}
-
-const rootMetaPath = path.join(contentTargetDir, "meta.json");
-const rootMeta = await readJsonIfExists(rootMetaPath);
-
-if (rootMeta && Array.isArray(rootMeta.pages)) {
-  for (const systemOwnedDir of systemOwnedDirs) {
-    if (!rootMeta.pages.includes(systemOwnedDir)) {
-      rootMeta.pages.push(systemOwnedDir);
-    }
-  }
-
-  await writeFile(rootMetaPath, `${JSON.stringify(rootMeta, null, 2)}\n`, "utf8");
 }
 
 const docFiles = await collectDocFiles(contentTargetDir);

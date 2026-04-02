@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { getMDXComponents } from "@/mdx-components";
 import { source } from "@/lib/source";
-import { getSystemPageDefinition } from "@/lib/system-pages";
 
 type DocsPageProps = {
   params: Promise<{
@@ -85,7 +84,6 @@ export default async function DocsPageRoute({ params }: DocsPageProps) {
   const previousPage = currentIndex > 0 ? orderedPages[currentIndex - 1] : null;
   const nextPage = currentIndex >= 0 && currentIndex < orderedPages.length - 1 ? orderedPages[currentIndex + 1] : null;
   const relativeLink = createRelativeLink(source, page);
-  const systemPage = getSystemPageDefinition(currentUrl);
 
   return (
     <div className="flex scroll-mt-24 items-stretch pb-8 text-[1.05rem] sm:text-[15px] xl:w-full">
@@ -121,19 +119,15 @@ export default async function DocsPageRoute({ params }: DocsPageProps) {
           </div>
 
           <div className="w-full flex-1 pb-16 sm:pb-0 *:data-[slot=alert]:first:mt-0">
-            {systemPage ? (
-              systemPage.render()
-            ) : (
-              <MDX
-                components={getMDXComponents({
-                  a: ({ className, ...props }) =>
-                    relativeLink({
-                      className: `font-medium underline underline-offset-4${className ? ` ${className}` : ""}`,
-                      ...props,
-                    }),
-                })}
-              />
-            )}
+            <MDX
+              components={getMDXComponents({
+                a: ({ className, ...props }) =>
+                  relativeLink({
+                    className: `font-medium underline underline-offset-4${className ? ` ${className}` : ""}`,
+                    ...props,
+                  }),
+              })}
+            />
           </div>
 
           {(previousPage || nextPage) ? (
