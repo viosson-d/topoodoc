@@ -1,0 +1,27 @@
+---
+title: "MCP Server"
+description: "Use the shadcn MCP server to browse, search, and install components from registries."
+---
+The shadcn MCP Server allows AI assistants to interact with items from registries and install them into your project using natural language.
+
+## Quick Start
+
+```bash
+npx shadcn@latest mcp init --client codex
+```
+
+## Example Prompts
+
+- Build a landing page using components from the acme registry.
+- Find a login form from the shadcn registry.
+- Install a dashboard sidebar and data table into this project.
+
+## Configuration
+
+```json title="components.json"
+{
+  "registries": {
+    "@acme": "https://acme.com/r/{name}.json"
+  }
+}
+```

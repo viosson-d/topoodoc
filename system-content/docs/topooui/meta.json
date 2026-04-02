@@ -1,0 +1,16 @@
+{
+  "title": "TopooUI",
+  "pages": [
+    "index",
+    "components",
+    "installation",
+    "theming",
+    "cli",
+    "rtl",
+    "skills",
+    "mcp",
+    "registry",
+    "forms",
+    "changelog"
+  ]
+}

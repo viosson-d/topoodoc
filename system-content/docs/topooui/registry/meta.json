@@ -1,0 +1,10 @@
+{
+  "title": "Registry",
+  "pages": [
+    "index",
+    "getting-started",
+    "namespace",
+    "authentication",
+    "examples"
+  ]
+}

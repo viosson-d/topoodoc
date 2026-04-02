@@ -162,12 +162,17 @@ const siteDir = path.resolve(rootDir, args.site ?? "apps/content-site");
 const contentSourceDir = path.join(contentRepoDir, "content/docs");
 const contentTargetDir = path.join(siteDir, "content/docs");
 const systemContentDir = path.join(rootDir, "system-content/docs");
+const systemOwnedRoots = ["topooui"];
 const contentConfigPath = path.join(contentRepoDir, "topoodoc.content.json");
 const docsConfigPath = path.join(siteDir, "docs.config.ts");
 
 await rm(contentTargetDir, { recursive: true, force: true });
 await mkdir(path.dirname(contentTargetDir), { recursive: true });
 await cp(contentSourceDir, contentTargetDir, { recursive: true });
+
+for (const rootName of systemOwnedRoots) {
+  await rm(path.join(contentTargetDir, rootName), { recursive: true, force: true });
+}
 
 try {
   const systemFiles = await collectAllFiles(systemContentDir);
