@@ -40,18 +40,6 @@ Does not own:
 - `topoodoc.content.json`
 - `content/docs/**`
 
-## Schema Direction
-
-The repo split is only safe if content shape is also constrained.
-
-See:
-- `docs/CONTENT_SCHEMA.md`
-
-The short version:
-- content repos should store data and copy
-- `topoodoc` should own rendering templates and visual layout
-- page types such as `board-landing` and `component-index` should become schema-driven instead of raw MDX layout
-
 ## Current Generator
 
 Use:

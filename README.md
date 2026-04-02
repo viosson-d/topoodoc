@@ -74,4 +74,3 @@ pnpm import:docs /absolute/path/to/your/docs
 - generated docs sites use Next.js + Fumadocs
 - generated content repos stay pure and do not carry the app shell
 - system upgrades belong in `topoodoc`, not in customer content repos
-- content schema should live above raw MDX layout; see `docs/CONTENT_SCHEMA.md`
