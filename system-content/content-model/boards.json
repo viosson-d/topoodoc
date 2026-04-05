@@ -1,0 +1,9 @@
+[
+  {
+    "id": "topooui",
+    "label": "TopooUI",
+    "href": "/docs/topooui",
+    "kind": "system-reference",
+    "description": "Shared UI foundation, component references, and documentation primitives."
+  }
+]

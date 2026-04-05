@@ -1,0 +1,188 @@
+[
+  {
+    "id": "topooui-topooui",
+    "blockId": "topooui-default",
+    "label": "TopooUI",
+    "href": "/docs/topooui",
+    "description": "TopooUI landing page.",
+    "pageIds": [
+      "topooui-index"
+    ]
+  },
+  {
+    "id": "topooui-theming",
+    "blockId": "topooui-default",
+    "label": "Theming",
+    "href": "/docs/topooui/theming",
+    "description": "Visual tokens and variables.",
+    "pageIds": [
+      "topooui-theming"
+    ]
+  },
+  {
+    "id": "topooui-cli",
+    "blockId": "topooui-default",
+    "label": "shadcn",
+    "href": "/docs/topooui/cli",
+    "description": "CLI and setup guidance.",
+    "pageIds": [
+      "topooui-cli"
+    ]
+  },
+  {
+    "id": "topooui-skills",
+    "blockId": "topooui-default",
+    "label": "Skills",
+    "href": "/docs/topooui/skills",
+    "description": "Skills overview.",
+    "pageIds": [
+      "topooui-skills"
+    ]
+  },
+  {
+    "id": "topooui-mcp",
+    "blockId": "topooui-default",
+    "label": "MCP Server",
+    "href": "/docs/topooui/mcp",
+    "description": "MCP server notes.",
+    "pageIds": [
+      "topooui-mcp"
+    ]
+  },
+  {
+    "id": "topooui-components",
+    "blockId": "topooui-default",
+    "label": "Components",
+    "href": "/docs/topooui/components",
+    "description": "Component reference pages.",
+    "pageIds": [
+      "topooui-components-index",
+      "topooui-components-accordion",
+      "topooui-components-alert",
+      "topooui-components-alert-dialog",
+      "topooui-components-aspect-ratio",
+      "topooui-components-avatar",
+      "topooui-components-badge",
+      "topooui-components-breadcrumb",
+      "topooui-components-button",
+      "topooui-components-button-group",
+      "topooui-components-calendar",
+      "topooui-components-card",
+      "topooui-components-carousel",
+      "topooui-components-chart",
+      "topooui-components-checkbox",
+      "topooui-components-collapsible",
+      "topooui-components-combobox",
+      "topooui-components-command",
+      "topooui-components-context-menu",
+      "topooui-components-data-table",
+      "topooui-components-date-picker",
+      "topooui-components-dialog",
+      "topooui-components-direction",
+      "topooui-components-drawer",
+      "topooui-components-dropdown-menu",
+      "topooui-components-empty",
+      "topooui-components-field",
+      "topooui-components-form",
+      "topooui-components-hover-card",
+      "topooui-components-input",
+      "topooui-components-input-group",
+      "topooui-components-input-otp",
+      "topooui-components-item",
+      "topooui-components-kbd",
+      "topooui-components-label",
+      "topooui-components-menubar",
+      "topooui-components-native-select",
+      "topooui-components-navigation-menu",
+      "topooui-components-pagination",
+      "topooui-components-popover",
+      "topooui-components-progress",
+      "topooui-components-radio-group",
+      "topooui-components-resizable",
+      "topooui-components-scroll-area",
+      "topooui-components-select",
+      "topooui-components-separator",
+      "topooui-components-sheet",
+      "topooui-components-sidebar",
+      "topooui-components-skeleton",
+      "topooui-components-slider",
+      "topooui-components-sonner",
+      "topooui-components-spinner",
+      "topooui-components-switch",
+      "topooui-components-table",
+      "topooui-components-tabs",
+      "topooui-components-textarea",
+      "topooui-components-toast",
+      "topooui-components-toggle",
+      "topooui-components-toggle-group",
+      "topooui-components-tooltip",
+      "topooui-components-typography"
+    ]
+  },
+  {
+    "id": "topooui-installation",
+    "blockId": "topooui-default",
+    "label": "Installation",
+    "href": "/docs/topooui/installation",
+    "description": "Installation guides.",
+    "pageIds": [
+      "topooui-installation-index",
+      "topooui-installation-next",
+      "topooui-installation-vite",
+      "topooui-installation-tanstack",
+      "topooui-installation-laravel",
+      "topooui-installation-react-router",
+      "topooui-installation-astro",
+      "topooui-installation-manual"
+    ]
+  },
+  {
+    "id": "topooui-rtl",
+    "blockId": "topooui-default",
+    "label": "RTL",
+    "href": "/docs/topooui/rtl",
+    "description": "RTL guides.",
+    "pageIds": [
+      "topooui-rtl-index",
+      "topooui-rtl-next",
+      "topooui-rtl-start",
+      "topooui-rtl-vite"
+    ]
+  },
+  {
+    "id": "topooui-registry",
+    "blockId": "topooui-default",
+    "label": "Registry",
+    "href": "/docs/topooui/registry",
+    "description": "Registry guides.",
+    "pageIds": [
+      "topooui-registry-index",
+      "topooui-registry-getting-started",
+      "topooui-registry-namespace",
+      "topooui-registry-authentication",
+      "topooui-registry-examples"
+    ]
+  },
+  {
+    "id": "topooui-forms",
+    "blockId": "topooui-default",
+    "label": "Forms",
+    "href": "/docs/topooui/forms",
+    "description": "Forms guides.",
+    "pageIds": [
+      "topooui-forms-index",
+      "topooui-forms-react-hook-form",
+      "topooui-forms-tanstack-form"
+    ]
+  },
+  {
+    "id": "topooui-changelog",
+    "blockId": "topooui-default",
+    "label": "Changelog",
+    "href": "/docs/topooui/changelog",
+    "description": "Change log.",
+    "pageIds": [
+      "topooui-changelog-index"
+    ]
+  }
+]

@@ -198,6 +198,7 @@ const systemContentDir = path.join(rootDir, "system-content/docs");
 const systemOwnedRoots = ["topooui"];
 const contentConfigPath = path.join(contentRepoDir, "topoodoc.content.json");
 const contentModelDir = path.join(contentRepoDir, "content-model");
+const systemContentModelDir = path.join(rootDir, "system-content/content-model");
 const docsConfigPath = path.join(siteDir, "docs.config.ts");
 
 await rm(contentTargetDir, { recursive: true, force: true });
@@ -223,41 +224,61 @@ try {
 
 const contentConfig = JSON.parse(await readFile(contentConfigPath, "utf8"));
 const hasContentModel = await pathExists(contentModelDir);
+const hasSystemContentModel = await pathExists(systemContentModelDir);
 
 if (hasContentModel) {
-  const [siteModel, blocksModel, topicsModel, pagesModel] = await Promise.all([
+  const [siteModel, contentBoardsModel, contentBlocksModel, contentTopicsModel, contentPagesModel] = await Promise.all([
     readFile(path.join(contentModelDir, "site.json"), "utf8").then(JSON.parse),
+    readFile(path.join(contentModelDir, "boards.json"), "utf8").then(JSON.parse),
     readFile(path.join(contentModelDir, "blocks.json"), "utf8").then(JSON.parse),
     readFile(path.join(contentModelDir, "topics.json"), "utf8").then(JSON.parse),
     readFile(path.join(contentModelDir, "pages.json"), "utf8").then(JSON.parse),
   ]);
 
+  const [systemBoardsModel, systemBlocksModel, systemTopicsModel, systemPagesModel] = hasSystemContentModel
+    ? await Promise.all([
+        readFile(path.join(systemContentModelDir, "boards.json"), "utf8").then(JSON.parse),
+        readFile(path.join(systemContentModelDir, "blocks.json"), "utf8").then(JSON.parse),
+        readFile(path.join(systemContentModelDir, "topics.json"), "utf8").then(JSON.parse),
+        readFile(path.join(systemContentModelDir, "pages.json"), "utf8").then(JSON.parse),
+      ])
+    : [[], [], [], []];
+
+  const boardsModel = [...contentBoardsModel, ...systemBoardsModel];
+  const blocksModel = [...contentBlocksModel, ...systemBlocksModel];
+  const topicsModel = [...contentTopicsModel, ...systemTopicsModel];
+  const pagesModel = [...contentPagesModel, ...systemPagesModel];
+
   const boardOrder = siteModel.boardOrder ?? blocksModel.map((block) => block.id);
   const systemOwnedBoards = new Set(siteModel.systemOwnedBoards ?? []);
+  const boardById = new Map(boardsModel.map((board) => [board.id, board]));
   const blockById = new Map(blocksModel.map((block) => [block.id, block]));
   const pageById = new Map(pagesModel.map((page) => [page.id, page]));
   const sidebarSectionsByRoot = {};
 
   for (const page of pagesModel) {
-    const pagePath = path.join(contentRepoDir, page.file);
+    const pageBaseDir = page.file.startsWith("docs/topooui/")
+      ? path.join(rootDir, "system-content")
+      : contentRepoDir;
+    const pagePath = path.join(pageBaseDir, page.file);
     if (!(await pathExists(pagePath))) {
       throw new Error(`[content:model] Missing page body for ${page.id}: ${page.file}`);
     }
   }
 
   const rootPages = ["index"];
-  for (const blockId of boardOrder) {
-    if (blockId === "topoo" || systemOwnedBoards.has(blockId)) {
+  for (const boardId of boardOrder) {
+    if (boardId === "topoo") {
       continue;
     }
 
-    const block = blockById.get(blockId);
-    if (!block) {
-      throw new Error(`[content:model] Unknown block ${blockId} in site.json`);
+    const board = boardById.get(boardId);
+    if (!board) {
+      throw new Error(`[content:model] Unknown board ${boardId} in site.json`);
     }
 
-    const folder = blockFolderFromHref(block.href);
-    if (folder) {
+    const folder = blockFolderFromHref(board.href);
+    if (folder && !systemOwnedBoards.has(boardId)) {
       rootPages.push(folder);
     }
   }
@@ -268,73 +289,81 @@ if (hasContentModel) {
     pages: rootPages,
   });
 
-  for (const block of blocksModel) {
-    if (block.id === "topoo" || systemOwnedBoards.has(block.id)) {
+  for (const board of boardsModel) {
+    if (board.id === "topoo") {
       continue;
     }
 
-    const folder = blockFolderFromHref(block.href);
+    const folder = blockFolderFromHref(board.href);
     if (!folder) {
       continue;
     }
 
-    const blockTopics = topicsModel.filter((topic) => topic.blockId === block.id);
+    const boardBlocks = blocksModel.filter((block) => block.boardId === board.id);
     const pages = [];
     const sections = [];
 
-    for (const topic of blockTopics) {
-      const sectionItems = [];
+    for (const block of boardBlocks) {
+      const blockTopics = topicsModel.filter((topic) => topic.blockId === block.id);
 
-      for (const pageId of topic.pageIds ?? []) {
-        const page = pageById.get(pageId);
-        if (!page) {
-          throw new Error(`[content:model] Unknown page ${pageId} in topic ${topic.id}`);
+      for (const topic of blockTopics) {
+        const sectionItems = [];
+
+        for (const pageId of topic.pageIds ?? []) {
+          const page = pageById.get(pageId);
+          if (!page) {
+            throw new Error(`[content:model] Unknown page ${pageId} in topic ${topic.id}`);
+          }
+
+          let pageKey = "index";
+
+          if (page.href !== board.href) {
+            const relativeDocPath = relativeDocPathFromHref(page.href);
+            const blockRelative = relativeDocPath.replace(`${folder}/`, "");
+            pageKey = blockRelative.replace(/\.(md|mdx)$/u, "").replace(/\/index$/u, "") || "index";
+          }
+
+          pages.push(pageKey || "index");
+          sectionItems.push({
+            href: page.href,
+            label: page.title,
+          });
         }
 
-        let pageKey = "index";
-
-        if (page.href !== block.href) {
-          const relativeDocPath = relativeDocPathFromHref(page.href);
-          const blockRelative = relativeDocPath.replace(`${folder}/`, "");
-          pageKey = blockRelative.replace(/\.(md|mdx)$/u, "").replace(/\/index$/u, "") || "index";
+        if (sectionItems.length > 0) {
+          sections.push({
+            label: topic.label,
+            items: sectionItems,
+          });
         }
-
-        pages.push(pageKey || "index");
-        sectionItems.push({
-          href: page.href,
-          label: page.title,
-        });
-      }
-
-      if (sectionItems.length > 0) {
-        sections.push({
-          label: topic.label,
-          items: sectionItems,
-        });
       }
     }
 
-    await writeJson(path.join(contentTargetDir, folder, "meta.json"), {
-      title: block.label,
-      pages,
-    });
+    if (!systemOwnedBoards.has(board.id)) {
+      await writeJson(path.join(contentTargetDir, folder, "meta.json"), {
+        title: board.label,
+        pages,
+      });
+    }
 
-    sidebarSectionsByRoot[block.href] = sections;
+    sidebarSectionsByRoot[board.href] = sections;
   }
 
   const existingPrimaryNav = contentConfig.navigation?.primary ?? [];
+  const generatedPrimaryNav = boardsModel.map((board) => ({
+    href: board.href,
+    label: board.label,
+  }));
+  const generatedPrimaryNavHrefs = new Set(generatedPrimaryNav.map((item) => item.href));
   const systemOwnedPrimaryNav = existingPrimaryNav.filter((item) => {
     const folder = blockFolderFromHref(item.href);
-    return folder ? systemOwnedBoards.has(folder) : false;
+    return folder ? systemOwnedBoards.has(folder) && !generatedPrimaryNavHrefs.has(item.href) : false;
   });
 
   contentConfig.navigation = {
     ...(contentConfig.navigation ?? {}),
     primary: [
-      ...blocksModel.map((block) => ({
-        href: block.href,
-        label: block.label,
-      })),
+      ...generatedPrimaryNav,
       ...systemOwnedPrimaryNav,
     ],
     sidebarSectionsByRoot,
